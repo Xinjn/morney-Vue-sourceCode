@@ -9,26 +9,22 @@
             </div>
 </template>
 
-<script>
-export default {
- name:'Types',
- props:['xxx'],
- data(){
-     return {
-         type:'-'
+<script lang="ts">
+import Vue from 'vue'
+import Component from 'vue-class-component'
+
+@Component
+export default class Type extends Vue{
+ type = '-'
+
+ selectType(type:string){
+     if(type !== '-' && type !== '+'){
+         throw new Error('type is unknon')
      }
- },
- mounted(){
-     console.log(this.xxx)
- },
- methods:{
-     selectType(type){
-         if(type !== '-' && type !== '+'){
-             throw new Error('type is unknown')
-         }
-         this.type = type
-     }
+     this.type = type
  }
+ created(){}
+ mounted(){}
 }
 </script>
 
