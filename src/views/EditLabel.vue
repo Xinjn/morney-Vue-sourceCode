@@ -30,7 +30,6 @@ export default class EditLabel extends Vue{
 
     created(){
         const id = this.$route.params.id
-        
         const tags = window.tagList
         const tag = tags.filter(t => t.id === id)[0]
         if(tag){
