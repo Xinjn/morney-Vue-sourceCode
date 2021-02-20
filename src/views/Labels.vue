@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import store from '@/store/index2';
+
 import Vue from 'vue'
 import {Component} from 'vue-property-decorator'
 import Button from '../components/Money/Button.vue';
