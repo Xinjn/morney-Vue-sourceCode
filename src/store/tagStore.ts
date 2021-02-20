@@ -1,12 +1,14 @@
 import createId from '@/lib/createId';
-import tagListModel from '@/models/tagListModel';
 
 const localStorageKeyName = 'tagList'
 const tagStore = {
     tagList:[] as Tag[],
-    findTags(){
+    fetchTags(){
     this.tagList = JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]') 
         return this.tagList
+    },
+    findTag(id:string) {
+        return this.tagList.filter(t => t.id ===id)[0]
     },
     createTag(name: string){
         const names = this.tagList.map(item => item.name)
@@ -53,6 +55,6 @@ const tagStore = {
     }
 }
 
-tagStore.findTags()
+tagStore.fetchTags()
 
 export default tagStore
