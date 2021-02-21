@@ -26,7 +26,9 @@ import {Component} from 'vue-property-decorator'
 export default class Money extends Vue{
     get recordList(){
          return this.$store.state.recordList
+        
     }
+    
     record:RecordItem = {
         tags:[],notes:'',type:'-',amount:0
     }
