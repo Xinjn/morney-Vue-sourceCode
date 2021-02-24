@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-  publicPath: process.env.NOOE_ENV === 'production'
+  publicPath: process.env.NODE_ENV === 'production'
     ? '/money-test-vue-website/'
     : '/',
   lintOnSave: false,
