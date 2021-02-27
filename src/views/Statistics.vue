@@ -1,6 +1,7 @@
 <template>
     <Layout>
         <Tabs class-prefix='type' :data-source='recordTyedList' :value.sync="type"/>
+        <Chart :options='x' />
         <div>
             <ol v-if="groupedList.length > 0">
                 <li v-for="(group,index) in groupedList" :key="index">
@@ -28,9 +29,10 @@ import Tabs from '@/components/Tabs.vue';
 import recordTyedList from '@/constant/recordTyedList';
 import dayjs from 'dayjs'
 import clone from '@/lib/clone';
+import Chart from '../components/Chart.vue';
 
 @Component({
-    components:{Tabs}
+    components:{Tabs,Chart}
 })
 export default class Statistics extends Vue{
     tagString(tags:Tag[]){
@@ -56,6 +58,23 @@ export default class Statistics extends Vue{
             return day.format('M月D日')
         }else{
             return day.format('YYYY年M月D日')
+        }
+    }
+
+    get x() {
+        return {
+                xAxis: {
+                    type: 'category',
+                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [150, 230, 224, 218, 135, 147, 260],
+                    type: 'line'
+                }],
+                tooltip:{show:true}
         }
     }
 
