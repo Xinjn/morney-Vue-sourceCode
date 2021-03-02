@@ -1,7 +1,9 @@
 <template>
     <Layout>
         <Tabs class-prefix='type' :data-source='recordTyedList' :value.sync="type"/>
-        <Chart :options='x' />
+        <div class="chart-wrapper" ref="chartWrapper">
+            <Chart class="chart"  :options='x' />
+        </div>
         <div>
             <ol v-if="groupedList.length > 0">
                 <li v-for="(group,index) in groupedList" :key="index">
@@ -39,6 +41,11 @@ export default class Statistics extends Vue{
         return tags.length === 0 ? '无' : tags.map(t => t.name).join('，')
     }
 
+    mounted(){
+        const div = (this.$refs.chartWrapper as HTMLDivElement)
+        div.scrollLeft = div.scrollWidth
+    }
+
     beautify(string:string){
         const day = dayjs(string)
         
@@ -63,18 +70,43 @@ export default class Statistics extends Vue{
 
     get x() {
         return {
+            grid:{
+                left:0,
+                right:0
+            },
                 xAxis: {
                     type: 'category',
-                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                    data: [
+                        '1', '2', '3', '4', '5', '6', '7','8', '9', '10',
+                        '11', '12', '13', '14', '15', '16', '17','18', '19', '20',
+                        '21', '22', '23', '24', '25', '26', '27','28', '29', '30',
+                        ],
+                        axisTick:{alignWithLabel:true},
+                        axisLine:{lineStyle:{color:'#666'}}
                 },
                 yAxis: {
-                    type: 'value'
+                    type: 'value',
+                    show:false
                 },
                 series: [{
-                    data: [150, 230, 224, 218, 135, 147, 260],
+                    symbol:'circle',
+                    symbolSize:12,
+                    itemStyle:{borderWidth:1,color:'#666',borderColor:'#666'},
+                    data: [
+                        150, 230, 224, 218, 135, 147, 260,
+                        150, 230, 224, 218, 135, 147, 260,
+                        150, 230, 224, 218, 135, 147, 260,
+                        150, 230, 224, 218, 135, 147, 260,
+                        147, 260,
+                        ],
                     type: 'line'
                 }],
-                tooltip:{show:true}
+                tooltip:{
+                    show:true,
+                    triggerOn:'click',
+                    position:'top',
+                    formatter:'{c}'
+                    }
         }
     }
 
@@ -87,9 +119,12 @@ export default class Statistics extends Vue{
         const newList = clone(recordList)
             .filter(r => r.type === this.type)
             .sort((a,b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
+
         type Result = {title:string,total?:number,items:RecordItem[]}[]
         if(newList.length === 0){return []}
+        
         const result:Result = [{title:dayjs(newList[0].createdAt).format('YYYY-MM-DD'),items:[newList[0]]}]
+
         for(let i = 1;i<newList.length;i++){
             const current = newList[i]
             const last = result[result.length - 1]
@@ -152,6 +187,15 @@ export default class Statistics extends Vue{
       margin-right: auto;
       margin-left: 16px;
       color:#999;
+  }
+  .chart {
+      width:500%;
+      &-wrapper{
+          overflow:auto
+      }
+      &::-webkit-scrollbar{
+          display:none;
+      }
   }
 </style>
 

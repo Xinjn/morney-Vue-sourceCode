@@ -1,18 +1,17 @@
 <template>
-    <div class="wrapper" ref='wrapper'>
-    </div>
+    <div class="wrapper" ref='wrapper'/>
+    
 </template>
 
 <script lang='ts'>
 import {Component,Prop,Vue} from 'vue-property-decorator'
-import echarts,{EChartsOption} from 'echarts';
+import echarts,{EChartOption} from 'echarts';
 
 
 @Component
 export default class Chart extends Vue {
-    @Prop() options?:EChartsOption
+    @Prop() options?:EChartOption
     mounted(){
-        console.log(this.$refs.wrapper)
         if(this.options === undefined){
             return console.error('option 为空')
         }
