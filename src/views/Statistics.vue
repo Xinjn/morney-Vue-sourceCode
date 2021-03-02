@@ -2,7 +2,7 @@
     <Layout>
         <Tabs class-prefix='type' :data-source='recordTyedList' :value.sync="type"/>
         <div class="chart-wrapper" ref="chartWrapper">
-            <Chart class="chart"  :options='x' />
+            <Chart class="chart"  :options='chartOption' />
         </div>
         <div>
             <ol v-if="groupedList.length > 0">
@@ -69,7 +69,7 @@ export default class Statistics extends Vue{
             return day.format('YYYY年M月D日')
         }
     }
-    get y(){
+    get keyValueList(){
         const today = new Date()
         const array = []
         for(let i = 0;i <= 29;i++){
@@ -92,10 +92,10 @@ export default class Statistics extends Vue{
         })
         return array
     }
-    get x() {
-        const keys = this.y.map(item => item.date)
-        const values = this.y.map(item => item.value)
-        
+    get chartOption() {
+        const keys = this.keyValueList.map(item => item.date)
+        const values = this.keyValueList.map(item => item.value)
+
         return {
             grid:{
                 left:0,
@@ -103,11 +103,14 @@ export default class Statistics extends Vue{
             },
                 xAxis: {
                     type: 'category',
-                    data: [
-                        keys
-                        ],
+                    data: keys,
                         axisTick:{alignWithLabel:true},
-                        axisLine:{lineStyle:{color:'#666'}}
+                        axisLine:{lineStyle:{color:'#666'}},
+                        axisLabel:{
+                            formatter:function(value:string,index:number){
+                                return value.substr(5)
+                            }
+                        }
                 },
                 yAxis: {
                     type: 'value',
