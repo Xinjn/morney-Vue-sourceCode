@@ -75,9 +75,9 @@ export default class Statistics extends Vue{
         for(let i = 0;i <= 29;i++){
             const dateString = day(today)
                 .subtract(i,'day').format('YYYY-MM-DD')
-            const found = _.find(this.recordList,{createdAt:dateString})
+            const found = _.find(this.groupedList,{title:dateString})
             array.push({
-                date:dateString,value:found ? found.amount : 0
+                date:dateString,value:found ? found.total : 0
             })
         }
 
@@ -137,7 +137,6 @@ export default class Statistics extends Vue{
     }
     get groupedList() {  
         const {recordList} = this
- 
         const newList = clone(recordList)
             .filter(r => r.type === this.type)
             .sort((a,b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf())
@@ -211,13 +210,13 @@ export default class Statistics extends Vue{
       color:#999;
   }
   .chart {
-      width:500%;
+      width:430%;
       &-wrapper{
-          overflow:auto
-      }
-      &::-webkit-scrollbar{
-          display:none;
-      }
+        overflow:auto;
+        &::-webkit-scrollbar{
+              display:none;
+        }
+    }
   }
 </style>
 
