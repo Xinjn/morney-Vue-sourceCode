@@ -17,10 +17,11 @@ export default {
 
 <style lang="scss" scoped>
  .icon{
-     width:2em;
-     height: 2em;
+     width:30px;
+     height: 30px;
      vertical-align: -0.15em;
      fill: currentColor;
      overflow: hidden;
+
  }
 </style>

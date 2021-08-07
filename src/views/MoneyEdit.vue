@@ -1,17 +1,16 @@
 <template>
     <Layout>
-
         <nav>
                 <div class="tabs">
-                    <router-link :to="`/labels`" >
+                    <router-link :to="`/statistics`" >
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#goback"></use>
                         </svg>
                     </router-link>
                 </div>
 
-                 <div class="user">
-                    <router-link :to="`/account`" >
+                <div class="user">
+                    <router-link :to="`/statistics`" >
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#user"></use>
                         </svg>
@@ -21,30 +20,46 @@
         </nav>
 
         <div class="form-wrapper">
-            <p>
-                <FormItem :value="currentTag.name" @update:value="update" fieldName="标签名"
-                placeholder="请输入标签名" />
-            </p>
+            <div class="input">
+                <FormItem  
+                fieldName="账户类型"
+                placeholder="请输入账户类型" 
+                :value ="this.currentRecord[0].account"
+                />
+            </div>
+            <div class="input">
+                <FormItem  
+                fieldName="金额"
+                placeholder="请输入金额" 
+                :value ="this.currentRecord[0].amount"
+                />
+            </div>
+            <div class="input">
+                <FormItem  
+                fieldName="类型"
+                placeholder="请输入类型" 
+                :value ="this.currentRecord[0].type === '-'? '支出': '收入' "
+                />
+            </div>
+            <div class="input">
+                <FormItem  
+                fieldName="备注"
+                placeholder="暂无备注" 
+                :value ="this.currentRecord[0].notes"
+                />
+            </div>
+            <div class="input">
+                <FormItem  
+                fieldName="日期"
+                placeholder="请输入日期" 
+                :value ="beautify(this.currentRecord[0].createdAt)"
+                />
+            </div>
         </div>
-
-        <div class="button-wrapper">
-            <Button class="button" @click="submit"> 
-                <svg class="icon" aria-hidden="true">
-                    <use xlink:href="#true"></use>
-                </svg>
-            </Button>
-
-            <Button class="button" @click="cancel">
-                <svg class="icon" aria-hidden="true">
-                <use xlink:href="#false"></use>
-                </svg>
-            </Button>
-        </div>
-
+        
         <div class="removeTag">
             <Button class="button" @click="remove">删除标签</Button>
         </div>
-        
     </Layout>
 </template>
 
@@ -53,48 +68,31 @@ import Vue from 'vue'
 import { Component, Watch } from 'vue-property-decorator';
 import FormItem from '../components/Money/FormItem.vue';
 import Button from '../components/Money/Button.vue';
-
+import store from '@/store';
+import router from '../router/index';
+import day from 'dayjs'
+import dayjs from 'dayjs'
 @Component({
     components:{FormItem,Button},
 })
-export default class EditLabel extends Vue{
-    initName = ''
-    updateName = ''
-    get currentTag(){
-        return this.$store.state.currentTag
-    }
-
-    created(){
+export default class EditAccount extends Vue{
+    created() {
+        store.commit('fetchRecords')
         const id = this.$route.params.id
-        this.$store.commit('fetchTags')
-        this.$store.commit('setCurrentTag',id)
-        if(!this.currentTag){
-            this.$router.replace('/404')
-        }
-        this.initName = this.currentTag.name 
+        store.commit('setcurrentRecord',id)
     }
-    update(name:string){
-        this.updateName = name
-
+    get currentRecord(){
+        return this.$store.state.currentRecord
+    }
+    beautify(string: string){
+        const day = dayjs(string)
+        return day.format('MM月DD日')
     }
     remove(){
-        if(this.currentTag){
-            this.$store.commit('removeTag',this.currentTag.id)
-        }
-    }
-    submit(){
-       
+        console.log('删除标签');
+        const id = this.$route.params.id
+        store.commit('removeCurrentRecord',id)
         
-        if(this.currentTag){
-            this.$store.commit('updateTag',{id:this.currentTag.id,name:this.updateName === '' ? this.initName : this.updateName})
-        }
-       this.$router.push('/')
-    }
-    cancel(){
-      return this.$router.push('/')
-    }
-    goback(){
-        this.$router.back()
     }
 }
 </script>
@@ -146,12 +144,16 @@ padding-top:32px;
 }
 }
 .form-wrapper{
-background: #FFFFFF;
-box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.1);
-border-radius: 10px;
-margin:15px  auto 30px auto;
-width: 90%;
-color: #1D3D57;
+
+
+    border-radius: 10px;
+    margin:15px  auto 30px auto;
+    width: 90%;
+    color: #1D3D57;
+    .input{
+        box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom:10px ;
+    }
 }
 .button-wrapper{
 position: fixed;

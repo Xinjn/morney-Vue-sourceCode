@@ -1,16 +1,15 @@
 <template>
     <Layout>
-
         <nav>
                 <div class="tabs">
-                    <router-link :to="`/labels`" >
+                    <router-link :to="`/account`" >
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#goback"></use>
                         </svg>
                     </router-link>
                 </div>
 
-                 <div class="user">
+                <div class="user">
                     <router-link :to="`/account`" >
                         <svg class="icon" aria-hidden="true">
                             <use xlink:href="#user"></use>
@@ -21,30 +20,38 @@
         </nav>
 
         <div class="form-wrapper">
-            <p>
-                <FormItem :value="currentTag.name" @update:value="update" fieldName="标签名"
-                placeholder="请输入标签名" />
-            </p>
+            <div class="input">
+                <FormItem  
+                fieldName="账户名称"
+                placeholder="请输入账户名称" 
+                :value="this.initList.title"
+                @update:value="updateTitle($event)"
+                />
+            </div>
+
+            <div class="input">
+                <FormItem  
+                fieldName="账户余额"
+                placeholder="请输入账户余额" 
+                :value="this.initList.amount"
+                @update:value="updateAmount($event)"
+                />
+            </div>
         </div>
 
-        <div class="button-wrapper">
+        <div class="button-wrapper" >
             <Button class="button" @click="submit"> 
                 <svg class="icon" aria-hidden="true">
                     <use xlink:href="#true"></use>
                 </svg>
             </Button>
 
-            <Button class="button" @click="cancel">
+            <Button class="button" >
                 <svg class="icon" aria-hidden="true">
                 <use xlink:href="#false"></use>
                 </svg>
             </Button>
         </div>
-
-        <div class="removeTag">
-            <Button class="button" @click="remove">删除标签</Button>
-        </div>
-        
     </Layout>
 </template>
 
@@ -53,53 +60,47 @@ import Vue from 'vue'
 import { Component, Watch } from 'vue-property-decorator';
 import FormItem from '../components/Money/FormItem.vue';
 import Button from '../components/Money/Button.vue';
+import store from '@/store';
 
 @Component({
     components:{FormItem,Button},
 })
-export default class EditLabel extends Vue{
-    initName = ''
-    updateName = ''
-    get currentTag(){
-        return this.$store.state.currentTag
+export default class CreateAccount extends Vue{
+    get initList(){
+        return {
+                amount:'0',
+                icon:'',
+                id:'',
+                title:''
+            }
+    }
+    updateTitle(value: string){
+       this.initList.title = value
+    }
+    updateAmount(value: string){
+      this.initList.amount = value
     }
 
-    created(){
-        const id = this.$route.params.id
-        this.$store.commit('fetchTags')
-        this.$store.commit('setCurrentTag',id)
-        if(!this.currentTag){
-            this.$router.replace('/404')
-        }
-        this.initName = this.currentTag.name 
-    }
-    update(name:string){
-        this.updateName = name
-
-    }
-    remove(){
-        if(this.currentTag){
-            this.$store.commit('removeTag',this.currentTag.id)
-        }
-    }
     submit(){
-       
-        
-        if(this.currentTag){
-            this.$store.commit('updateTag',{id:this.currentTag.id,name:this.updateName === '' ? this.initName : this.updateName})
-        }
-       this.$router.push('/')
-    }
-    cancel(){
-      return this.$router.push('/')
-    }
-    goback(){
-        this.$router.back()
+        store.commit('createAccount',this.initList)
+        this.$router.push('./account')
     }
 }
 </script>
 
 <style lang="scss" scoped>
+.form-wrapper{
+
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin:15px  auto 30px auto;
+    width: 90%;
+    color: #1D3D57;
+    .input{
+
+        margin-bottom:10px ;
+    }
+}
 nav{
 display: flex;
 // align-items: center;
@@ -145,14 +146,6 @@ padding-top:32px;
     
 }
 }
-.form-wrapper{
-background: #FFFFFF;
-box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.1);
-border-radius: 10px;
-margin:15px  auto 30px auto;
-width: 90%;
-color: #1D3D57;
-}
 .button-wrapper{
 position: fixed;
 width: 100%;
@@ -174,16 +167,5 @@ filter: drop-shadow(4px 4px 5px rgba(0, 0, 0, 0.1));
         overflow: hidden;
     }
 }
-}
-.removeTag{
-
-    position: fixed;
-    bottom: 90px;
-    width: 100%;
-    text-align: center;
-    button{
-
-        border-radius: 25px;
-    }
 }
 </style>

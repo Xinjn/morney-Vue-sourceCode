@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
@@ -12,7 +14,7 @@ Vue.config.productionTip = false
 Vue.component('Nav', Nav)
 Vue.component('Layout',Layout)
 Vue.component('Icon', Icon)
-
+Vue.use(ElementUI);
 
 
 new Vue({
@@ -24,7 +26,6 @@ new Vue({
 window.onload = function () {
   setTimeout(function () {
     window.scrollTo(0, 10000)
-    
   },0)
 }
 
