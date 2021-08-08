@@ -31,6 +31,7 @@
             </div>
             <div class="accountwrapper">
                 <router-link class="accountmain" v-for="account,index in accounts" :key="index" :to="`/account/edit/${account.id}`" >
+                
                 <div class="account">
                     <p>{{account.title}}</p>
                     <div class="iconWrapper">
@@ -42,18 +43,19 @@
                 </div>
                 
             </router-link>
+            
             </div>
 
             <div class="createAccount-wrapper">
                 <router-link :to="`/createAccount`" >
-                <Button class="createAccount">
+                <div class="createAccount">
                     <svg class="icon" aria-hidden="true">
                     <use xlink:href="#add"></use>
                     </svg>
-                </Button>
+                </div>
                 </router-link>
             </div>
-            
+
     </Layout>
 </template>
 
@@ -177,7 +179,9 @@ nav{
         height: 57.61px;
         display: flex;
         justify-content: center;
+        color: #1cb2eb;
         .icon{
+            margin-top:15px ;
             width: 25px;
             height: 25px;
             vertical-align: -0.15em;
@@ -186,6 +190,12 @@ nav{
         }
     }
 }
+@media(min-width:360px){
+        .icon{
+            // border: 1px solid red;
+        }
+}
+
 .accountwrapper{
 display: flex;
 justify-content: space-between;

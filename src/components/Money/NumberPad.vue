@@ -96,7 +96,7 @@ export default class NumberPad extends Vue{
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
  .numberPad {
-
+  
      background: #fff;
      .buttonwrapper{
          display: flex;
@@ -104,12 +104,12 @@ export default class NumberPad extends Vue{
         .buttons{
             // border: 1px solid red;
             width: 100%;
-            height: 290px;
+            height: 250px;
             button {
                 background: #fff;
                 border: none;
                 width: 25%;
-                height:72.5px;
+                height:62.5px;
             }
             // button:hover{
             //     background: #f5c23b;
@@ -122,4 +122,28 @@ export default class NumberPad extends Vue{
         
      }
  }
+@media(max-width:320px){
+ .numberPad {
+  
+     background: #fff;
+     .buttonwrapper{
+         display: flex;
+         justify-content: center;
+        .buttons{
+            // border: 1px solid red;
+            width: 100%;
+            height: 200px;
+            button {
+                background: #fff;
+                border: none;
+                width: 25%;
+                height:51.5px;
+            }
+
+         }
+        
+     }
+ }
+}
+
 </style>

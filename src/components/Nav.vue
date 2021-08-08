@@ -46,6 +46,7 @@ export default {
 <style lang="scss" scoped>
 @import "~@/assets/style/helper.scss";
  nav {
+  // border: 1px solid red;
   position: fixed;
   bottom: -2px;
   width: 100%;
@@ -74,6 +75,7 @@ export default {
       }
    }
    >.side{
+     
      display: flex;
      justify-content: space-between;
      margin: 0 60px;

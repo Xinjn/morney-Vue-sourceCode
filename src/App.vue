@@ -10,6 +10,10 @@
 @import "~@/assets/style/reset.scss";
 @import "~@/assets/style/helper.scss";
 body{
+
+  // border: 1px solid red;
+  // max-width: 500px;
+  // margin: 0 auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #333;
@@ -20,9 +24,12 @@ body{
   font-family: ABeeZee;
   font-size: 15px;
   line-height: 22px;
+  overflow: hidden;
+  height: 100vh;
 }
 
 #app {
+
   max-width: 500px;
   margin: 0 auto;
 }

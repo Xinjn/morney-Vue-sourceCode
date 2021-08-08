@@ -38,13 +38,14 @@
             </router-link>
             </div>
         </div>
-
+        
+        
         <div class="createTag-wrapper">
-            <Button class="createTag" @click="createTag">
+            <div class="createTag" @click="createTag">
                 <svg class="icon" aria-hidden="true">
                 <use xlink:href="#add"></use>
                 </svg>
-            </Button>
+            </div>
         </div>
     </Layout>
 </template>
@@ -192,7 +193,11 @@ export default class Labels extends mixins(TagHelper){
         height: 57.61px;
         display: flex;
         justify-content: center;
+        color: #1cb2eb;
+
         .icon{
+ 
+            margin-top:15px ;
             width: 25px;
             height: 25px;
             vertical-align: -0.15em;

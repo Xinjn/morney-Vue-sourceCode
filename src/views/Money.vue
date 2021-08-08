@@ -1,10 +1,11 @@
 <template>
-    <div>
+    <div class="content">
+          
             <Tabs :data-source='recordTyedList' :value.sync="record.type" class="Tabs"/>
             <div class="layout">
                
-                <div class="wrapper">
-                    <main>
+                <div class="wrapper" :class="showInput ? 'show' : 'hidden' ">
+                    <main >
                          
                         <div class="option">
                             
@@ -34,11 +35,11 @@
                         </div>
                     </main>
                     <!-- 计算器 -->
-                    <NumberPad :value.sync="record.amount" @submit="saveRecord" @output="show" class="NumberPad"/>
+                    <NumberPad :value.sync="record.amount" @submit="saveRecord" @output="show" class="NumberPad" :class="showInput ? 'show' : 'hidden' "/>
                 </div>
                 <Tags @update:value="record.tags = $event" class="Tags"/>
-                <div class="output" >
-                    <input type="text" :value="output" style="direction: rtl;"/>
+                <div class="output" @click="visibilty">
+                    <input id="onInput" type="text" :value="output" style="direction: rtl;"/>
                 </div>
 
                 
@@ -110,6 +111,13 @@ export default class Money extends Vue{
 
     show(value:string){
        this.output = value
+    }
+
+    showInput = true
+    visibilty(){
+        this.showInput = !this.showInput
+        console.log(this.showInput);
+        
     }
 
 }
@@ -210,9 +218,18 @@ export default class Money extends Vue{
         overflow:auto;
     }
 }
+.hidden{
+    display: none;
+}
+
+#onInput{
+    // border: 1px solid red;
+    pointer-events: none;
+}
+
 @media screen and (max-width: 414px) { //小于 414px 像素则修改
     .layout{
-        padding-bottom:200px; 
+        // padding-bottom:330px; 
     }
 }
 
